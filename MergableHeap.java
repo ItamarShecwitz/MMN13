@@ -1,6 +1,6 @@
 public class MergableHeap {
-    private int[] heap;
-    
+    public int[] heap;
+
     public MergableHeap() {
         this.heap = new int[1];
     }
@@ -13,8 +13,9 @@ public class MergableHeap {
         return;
     }
 
-    public void minimum(MergableHeap heap) {
-        return;
+    public int minimum() {
+        if (heap == null) throw new RuntimeException("Heap is empty");
+        return this.heap[0];
     }
 
     public void extract_min(MergableHeap heap) {
