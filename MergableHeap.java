@@ -15,8 +15,9 @@ public class MergableHeap {
 
     public void insert(int value) {
         Node new_node = new Node(value);
-        if(this.head == null) {this.head = new_node;}
-        else {
+        if (this.head == null) {
+            this.head = new_node;
+        }  else {
             insert_after_last_node(this.head, new_node, 1, get_max_level(), false);
             min_heapify_up(new_node);
         }
