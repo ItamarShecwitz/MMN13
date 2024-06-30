@@ -38,8 +38,32 @@ public class MergableHeap {
         return this.heap.get(0);
     }
 
-    public void extract_min(MergableHeap heap) {
-        return;
+    public int extract_min() {
+        if (heap.isEmpty()) throw new RuntimeException("Heap is empty");
+        int minimum_value = this.heap.get(0);
+        // this.heap.set(0, this.heap.get(this.heap.size()-1));
+        this.heap.set(0, this.heap.get(this.heap.size()-1));
+        this.heap.remove(this.heap.get(this.heap.size()-1));
+        min_heapify(0);
+        return minimum_value;
+    }
+
+    public void min_heapify(int index) {
+        int left_index = 2 * index;
+        int right_index = 2 * index + 1;
+        int largest_index;
+        if(left_index <= this.heap.size() && this.heap.get(left_index) < this.heap.get(index)) {
+            largest_index = left_index;
+        } else {
+            largest_index = index;
+        }
+        if(right_index <= this.heap.size() && this.heap.get(right_index) < this.heap.get(index)) {
+            largest_index = right_index;
+        }
+        if(largest_index != index){
+            swap_indexes(index, largest_index);
+            min_heapify(largest_index);
+        }
     }
 
     public static MergableHeap union(MergableHeap heap1, MergableHeap heap2) {

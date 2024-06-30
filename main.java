@@ -26,5 +26,8 @@ class Main {
 
         MergableHeap new_heap = MergableHeap.union(heaper, heaper2);
         new_heap.pretty_print_heap();
+
+        System.out.println(new_heap.extract_min());
+        new_heap.pretty_print_heap();
     }
 }
