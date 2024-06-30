@@ -4,9 +4,8 @@ public class Node {
     Node right = null;
     Node parent = null;
 
-    public Node(int value, Node parent) {
+    public Node(int value) {
         this.value = value;
-        if (parent != null) {this.parent = parent;}
         
     }
 
@@ -18,5 +17,11 @@ public class Node {
     public void set_right(Node right_node) {
         this.right = right_node;
         right_node.parent = this;
+    }
+
+    public void delete_node() {
+        if(this.parent == null){return;}
+        else if(this.parent.left == this){this.parent.left = null;}
+        else{this.parent.right = null;}
     }
 }
