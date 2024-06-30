@@ -42,8 +42,12 @@ public class MergableHeap {
         return;
     }
 
-    public void union(MergableHeap heap) {
-        return;
+    public static MergableHeap union(MergableHeap heap1, MergableHeap heap2) {
+        MergableHeap new_heap = heap1;
+        for(int key : heap2.heap) {
+            new_heap.insert(key);
+        }
+        return new_heap;
     }
 
     public MergableHeap make_heap_from_file(String path_to_file, String input_type) {
@@ -51,6 +55,18 @@ public class MergableHeap {
     }
 
     public void print_heap() {
-        return;
+        System.out.println(this.heap);
+    }
+
+    public void pretty_print_heap() {
+        int level =1;
+        for(int i=0; i<this.heap.size(); i++) {
+            System.out.print(this.heap.get(i));
+            System.out.print(" ");
+            if(i+1==Math.pow(2, level)-1){
+                System.out.print("\n");
+                level++;
+            }
+        }
     }
 }
