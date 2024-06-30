@@ -1,6 +1,6 @@
 class Main {
     public static void main(String[] args){
-        MergableHeap heaper = MergableHeap.make_heap_from_file("./example.txt", "hi");
+        MergableHeap heaper = MergableHeap.make_heap_from_file("./example.txt");
         heaper.print_heap();
         System.out.println(heaper.extract_min());
         heaper.print_heap();
