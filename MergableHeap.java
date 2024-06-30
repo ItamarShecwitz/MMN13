@@ -1,8 +1,11 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class MergableHeap {
-    public int[] heap;
+    public List<Integer> heap;
 
     public MergableHeap() {
-        this.heap = new int[1];
+        this.heap = new ArrayList<>();  
     }
 
     public static MergableHeap make_heap() {
@@ -14,8 +17,8 @@ public class MergableHeap {
     }
 
     public int minimum() {
-        if (heap == null) throw new RuntimeException("Heap is empty");
-        return this.heap[0];
+        if (this.heap == null) throw new RuntimeException("Heap is empty");
+        return this.heap.get(0);
     }
 
     public void extract_min(MergableHeap heap) {
@@ -23,6 +26,14 @@ public class MergableHeap {
     }
 
     public void union(MergableHeap heap) {
+        return;
+    }
+
+    public MergableHeap make_heap_from_file(String path_to_file, String input_type) {
+        return null;
+    }
+
+    public void print_heap() {
         return;
     }
 }
