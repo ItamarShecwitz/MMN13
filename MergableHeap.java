@@ -9,11 +9,11 @@ public class MergableHeap {
     }
 
     public static MergableHeap make_heap() {
-        return null;
+        return new MergableHeap();
     }
 
-    public void insert(MergableHeap heap) {
-        return;
+    public void insert(int value) {
+        this.heap.add(value);
     }
 
     public int minimum() {
