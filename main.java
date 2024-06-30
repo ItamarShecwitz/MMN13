@@ -1,7 +1,7 @@
 class Main {
     public static void main(String[] args){
         MergableHeap heaper = MergableHeap.make_heap();
-        // heaper.print_heap();
+        heaper.pretty_print_heap();
         heaper.insert(17);
         heaper.insert(2);
         heaper.insert(5);
@@ -10,8 +10,8 @@ class Main {
         heaper.insert(120);
         heaper.insert(4);
         heaper.insert(1);
-        // heaper.print_heap();
-        // System.out.println(heaper.minimum());
+        heaper.pretty_print_heap();
+        System.out.println(heaper.minimum());
 
         MergableHeap heaper2 = MergableHeap.make_heap();
         heaper2.insert(18);
@@ -25,6 +25,6 @@ class Main {
         heaper2.pretty_print_heap();
 
         MergableHeap new_heap = MergableHeap.union(heaper, heaper2);
-        new_heap.print_heap();
+        new_heap.pretty_print_heap();
     }
 }

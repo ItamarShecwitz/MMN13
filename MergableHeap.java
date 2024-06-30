@@ -59,6 +59,7 @@ public class MergableHeap {
     }
 
     public void pretty_print_heap() {
+        System.out.print("\n");
         int level =1;
         for(int i=0; i<this.heap.size(); i++) {
             System.out.print(this.heap.get(i));
@@ -68,5 +69,6 @@ public class MergableHeap {
                 level++;
             }
         }
+        System.out.print("\n\n");
     }
 }
