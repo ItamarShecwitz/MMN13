@@ -13,14 +13,14 @@ public class MergableHeap {
     }
 
     public void insert(int value) {
-        this.heap.add(Integer.MIN_VALUE);
+        this.heap.add(Integer.MAX_VALUE);
         this.heap_increase_key(this.heap.size()-1, value);
     }
 
     public void heap_increase_key(int index, int key) {
-        if (key <= this.heap.get(index)){return;}
+        if (key >= this.heap.get(index)){return;}
         this.heap.set(index, key);
-        while(index > 0 && this.heap.get((int) (index/2)) < this.heap.get(index)){
+        while(index > 0 && this.heap.get((int) (index/2)) > this.heap.get(index)){
             int parent_index = (int) (index/2);
             swap_indexes(index, parent_index);
             index = parent_index;
