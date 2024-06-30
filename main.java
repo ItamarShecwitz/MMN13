@@ -1,16 +1,16 @@
 class Main {
     public static void main(String[] args){
-        MergableHeap heaper = MergableHeap.make_heap();
+        MergableHeap heaper = MergableHeap.make_heap_from_file("./example.txt", "hi");
         heaper.pretty_print_heap();
-        heaper.insert(17);
-        heaper.insert(2);
-        heaper.insert(5);
-        heaper.insert(7);
-        heaper.insert(9);
-        heaper.insert(120);
-        heaper.insert(4);
-        heaper.insert(1);
-        heaper.pretty_print_heap();
+        // heaper.insert(17);
+        // heaper.insert(2);
+        // heaper.insert(5);
+        // heaper.insert(7);
+        // heaper.insert(9);
+        // heaper.insert(120);
+        // heaper.insert(4);
+        // heaper.insert(1);
+        // heaper.pretty_print_heap();
         System.out.println(heaper.minimum());
 
         MergableHeap heaper2 = MergableHeap.make_heap();

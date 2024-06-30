@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,8 +77,18 @@ public class MergableHeap {
         return new_heap;
     }
 
-    public MergableHeap make_heap_from_file(String path_to_file, String input_type) {
-        return null;
+    public static MergableHeap make_heap_from_file(String path_to_file, String input_type) {
+        MergableHeap new_mergable_heap = MergableHeap.make_heap();
+        try (BufferedReader br = new BufferedReader(new FileReader(path_to_file))) {
+            String line = br.readLine();
+            while (line != null) {
+                new_mergable_heap.insert(Integer.valueOf(line));
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new_mergable_heap;
     }
 
     public void print_heap() {
