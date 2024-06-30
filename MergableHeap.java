@@ -17,7 +17,7 @@ public class MergableHeap {
     }
 
     public int minimum() {
-        if (this.heap == null) throw new RuntimeException("Heap is empty");
+        if (heap.isEmpty()) throw new RuntimeException("Heap is empty");
         return this.heap.get(0);
     }
 
