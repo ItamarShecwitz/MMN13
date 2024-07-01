@@ -52,5 +52,13 @@ class Main {
         System.out.println("\nnew heaper without min value:");
         new_heap.print_heap();
         
+
+        // MergableHeap heaper3 = MergableHeap.make_heap();
+        // heaper3.insert(4);
+        // heaper3.insert(12120);
+        // MergableHeap heaper4 = MergableHeap.make_heap();
+        // heaper4.insert(8);
+        // MergableHeap heaper5= MergableHeap.union(heaper3, heaper4);
+        // heaper5.print_heap();
     }
 }

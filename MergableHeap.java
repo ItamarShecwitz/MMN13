@@ -33,38 +33,42 @@ public class MergableHeap {
         Node new_node = new Node(value);
         if (this.head == null) {
             this.head = new_node;
-        }  else {
-            insert_after_last_node(this.head, new_node, 1, get_max_level(), false);
+        } else {
+            insert_after_last_node(this.head, new_node, 1, get_max_filled_level(), false);
             min_heapify_up(new_node);
         }
     }
 
     /**
-     * Maintains the heap property by bubbling up the node if necessary.
+     * Maintains the heap property by bubbling up recursively the node if necessary.
      * @param node The node to heapify up.
      */
-    public void min_heapify_up(Node node){
+    public void min_heapify_up(Node node) {
         Node parent = node.parent;
-        if (parent == null) {return;}
+        if (parent == null) return;
 
-        if(parent.value > node.value){
+        if (parent.value > node.value) {
             swap(node, parent);
             min_heapify_up(parent);
         }
     }
 
     /**
-     * Maintains the heap property by bubbling down the node if necessary.
+     * Maintains the heap property by bubbling down recursively the node if necessary.
      * @param node The node to heapify down.
      */
-    public void min_heapify_down(Node node){
+    public void min_heapify_down(Node node) {
         Node left = node.left;
         Node right = node.right;
-        Node smallest;
-        if (left != null && left.value < node.value) {smallest = left;}
-        else {smallest = node;}
-        if (right != null && right.value < smallest.value) {smallest = right;}
-        if(smallest != node){
+        Node smallest = node;
+
+        if (left != null && left.value < node.value) {
+            smallest = left;
+        }
+        if (right != null && right.value < smallest.value) {
+            smallest = right;
+        }
+        if (smallest != node) {
             swap(node, smallest);
             min_heapify_down(smallest);
         }
@@ -74,40 +78,52 @@ public class MergableHeap {
      * Swaps the values of two nodes.
      * @param node1 The first node.
      * @param node2 The second node.
+     * @throws RuntimeException if either node1 or node2 is empty.
      */
-    public static void swap(Node node1, Node node2){
+    public static void swap(Node node1, Node node2) {
+        if (node1 == null) throw new RuntimeException("Node 1 is empty");
+        if (node2 == null) throw new RuntimeException("Node 2 is empty");
         int temp_value = node1.value;
         node1.value = node2.value;
         node2.value = temp_value;
     }
 
     /**
-     * Recursively finding the last node, and planting the new node there.
+     * Recursively finds the last node and plants the new node there.
      * @param node_parent The parent node to start the insertion.
      * @param new_node The new node to insert.
      * @param level The current level in the heap.
-     * @param max_level The maximum level (height) of the heap.
+     * @param max_filled_level The maximum level (height) of the heap where the level is full.
      * @param placed Flag indicating if the node has been placed.
      * @return True if the node was successfully placed, false otherwise.
      */
-    public boolean insert_after_last_node(Node node_parent, Node new_node, int level, int max_level, boolean placed) { 
-        if(node_parent.left == null && level == max_level) {node_parent.set_left(new_node);return true;}
-        else if(node_parent.right == null && level == max_level) {node_parent.set_right(new_node);return true;}
-        else {
-            if (node_parent.left != null && level < max_level) { placed = insert_after_last_node(node_parent.left, new_node, level+1, max_level, placed); }
-            if (node_parent.right != null && level < max_level && !placed) { placed = insert_after_last_node(node_parent.right, new_node, level+1, max_level, placed); }
+    public boolean insert_after_last_node(Node node_parent, Node new_node, int level, int max_filled_level, boolean placed) {
+        if (node_parent.left == null && level == max_filled_level) {
+            node_parent.set_left(new_node);
+            return true;
+        } else if (node_parent.right == null && level == max_filled_level) {
+            node_parent.set_right(new_node);
+            return true;
+        } else {
+            if (node_parent.left != null && level < max_filled_level) {
+                placed = insert_after_last_node(node_parent.left, new_node, level + 1, max_filled_level, placed);
+            }
+            if (node_parent.right != null && level < max_filled_level && !placed) {
+                placed = insert_after_last_node(node_parent.right, new_node, level + 1, max_filled_level, placed);
+            }
         }
         return placed;
     }
 
     /**
-     * Gets the maximum level (height) of the heap.
-     * @return The maximum level (height) of the heap.
+     * Gets the maximum level (height) of the heap where the level is full.
+     * @return The maximum level (height) of the heap where the level is full.
      */
-    public int get_max_level() {
+    public int get_max_filled_level() {
+        if(this.head == null) {return 0;}
         int max_level = 1;
         Node current_node = this.head;
-        while(current_node.right != null) {
+        while (current_node.right != null) {
             current_node = current_node.right;
             max_level++;
         }
@@ -115,8 +131,23 @@ public class MergableHeap {
     }
 
     /**
-     * Retrieves the minimum value in the heap.
-     * @return The minimum value in the heap.
+     * Gets the maximum level (height) of the heap.
+     * @return The maximum level (height) of the heap.
+     */
+    public int get_max_level() {
+        if(this.head == null) {return 0;}
+        int max_level = 1;
+        Node current_node = this.head;
+        while (current_node.left != null) {
+            current_node = current_node.left;
+            max_level++;
+        }
+        return max_level;
+    }
+
+    /**
+     * Retrieves the minimum value of the heap.
+     * @return The minimum value of the heap.
      * @throws RuntimeException if the heap is empty.
      */
     public int minimum() {
@@ -132,10 +163,16 @@ public class MergableHeap {
     public int extract_min() {
         if (this.head == null) throw new RuntimeException("Heap is empty");
         int min_value = head.value;
-        swap(head, get_last_node());
-        get_last_node().delete_node();
+        Node last_node = get_last_node();
+
+        if (last_node == head) {
+            head = null;
+            return min_value;
+        }
+        swap(head, last_node);
+        last_node.delete_node();
         min_heapify_down(head);
-        if(get_last_node() == head){head = null;}
+
         return min_value;
     }
 
@@ -146,12 +183,28 @@ public class MergableHeap {
      */
     public Node get_last_node() {
         if (this.head == null) throw new RuntimeException("Heap is empty");
-        Node temp_node = this.head;
-        while(temp_node.left != null || temp_node.right != null) {
-            if(temp_node.left != null){temp_node = temp_node.left;}
-            else if(temp_node.right != null){temp_node = temp_node.right;}
+        return get_last_node(head, get_max_level(), null);
+    }
+
+    /**
+     * Recursively finds the last node at a given level.
+     * @param node The current node.
+     * @param level The current level.
+     * @param last_node The last node found so far.
+     * @return The last node at the given level.
+     */
+    public Node get_last_node(Node node, int level, Node last_node) {
+        if (level == 1 && node != null) {
+            last_node = node;
+        } else if (level > 1) {
+            if (node.left != null) {
+                last_node = get_last_node(node.left, level - 1, last_node);
+            }
+            if (node.right != null) {
+                last_node = get_last_node(node.right, level - 1, last_node);
+            }
         }
-        return temp_node;
+        return last_node;
     }
 
     /**
@@ -193,10 +246,10 @@ public class MergableHeap {
     }
 
     /**
-     * Prints the heap level by level.
+     * Prints the heap.
      */
     public void print_heap() {
-        int height = get_max_level()+1;
+        int height = get_max_filled_level() + 1;
         for (int level = 1; level <= height; level++) {
             print_level(head, level);
             System.out.println(); // New line after each level
@@ -219,6 +272,4 @@ public class MergableHeap {
             print_level(node.right, level - 1);
         }
     }
-
 }
-
